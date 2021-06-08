@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct NoteItemView: View {
     
@@ -17,6 +18,7 @@ struct NoteItemView: View {
                 .font(.headline)
             
             Text(note.timestamp, formatter: timestampFormatter)
+                .font(.footnote)
         }
     }
 }
@@ -29,6 +31,11 @@ private let timestampFormatter: RelativeDateTimeFormatter = {
 
 struct NoteItemView_Previews: PreviewProvider {
     static var previews: some View {
-        Text("TODO")
+        let note = try! Note.fetchFirst(with: PersistenceController.preview.container.viewContext)
+        
+        if let note = note {
+            return NoteItemView(note: note)
+        }
+        return Text("Failure")
     }
 }
