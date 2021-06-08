@@ -9,11 +9,15 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.managedObjectContext)
+    private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Note.timestamp, ascending: true)],
-        animation: .default)
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Note.timestamp, ascending: true)
+        ],
+        animation: .default
+    )
     private var items: FetchedResults<Note>
 
     var body: some View {
