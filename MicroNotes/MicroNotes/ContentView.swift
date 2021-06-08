@@ -28,20 +28,26 @@ struct ContentView: View {
             .onDelete(perform: deleteItems)
         }
         .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
-
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+            ToolbarItemGroup(placement: .bottomBar) {
+                EditButton()
+                
+                Spacer()
+                
+                Button(action: addItem) {
+                    Label("Add Item", systemImage: "plus")
+                }
             }
         }
+        .navigationTitle("Tiny notes")
+        
     }
 
     private func addItem() {
         withAnimation {
             let newItem = Note(context: viewContext)
             newItem.timestamp = Date()
+            newItem.title = "New note"
+            newItem.text = ""
 
             do {
                 try viewContext.save()
@@ -79,6 +85,10 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationView {
+            ContentView()
+        }
+        .accentColor(.orange)
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
