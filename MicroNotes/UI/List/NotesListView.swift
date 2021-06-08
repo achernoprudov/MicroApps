@@ -18,12 +18,12 @@ struct ContentView: View {
         ],
         animation: .default
     )
-    private var items: FetchedResults<Note>
+    private var notes: FetchedResults<Note>
 
     var body: some View {
         List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp, formatter: itemFormatter)")
+            ForEach(notes) { note in
+                NoteItemView(note: note)
             }
             .onDelete(perform: deleteItems)
         }
@@ -62,7 +62,7 @@ struct ContentView: View {
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { notes[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
@@ -75,13 +75,6 @@ struct ContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
