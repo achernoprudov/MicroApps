@@ -9,14 +9,18 @@ import SwiftUI
 import CoreData
 
 struct NoteItemView: View {
-    
-    
     let note: Note
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(note.title)
-                .font(.headline)
+            if note.title.isEmpty {
+                Text("Note")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+            } else {
+                Text(note.title)
+                    .font(.headline)
+            }
             
             Text(note.timestamp, formatter: timestampFormatter)
                 .font(.footnote)

@@ -15,34 +15,21 @@ struct NoteCardView: View {
     private var viewContext
     
     @State
-    var title: String
-    @State
     var text: String
     
     init(note: Note) {
         self.note = note
-        title = note.title
         text = note.text
     }
     
     var body: some View {
-        
-        
         TextEditor(text: $text)
+            .font(.body)
             .padding()
-        .navigationBarItems(
-            leading: HStack {
-                TextField("Title", text: $title)
-                    .font(.title3)
-                    .padding()
-            
-            }
-        )
         .onDisappear(perform: saveNote)
     }
     
     private func saveNote() {
-        note.title = title
         note.text = text
         
         do {

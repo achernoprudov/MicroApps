@@ -43,7 +43,7 @@ struct ContentView: View {
                 }
             }
         }
-        .navigationTitle("Tiny notes")
+        .navigationTitle("Micro notes")
         
     }
 
@@ -51,7 +51,6 @@ struct ContentView: View {
         withAnimation {
             let newItem = Note(context: viewContext)
             newItem.timestamp = Date()
-            newItem.title = "New note"
             newItem.text = ""
 
             do {

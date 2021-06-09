@@ -12,11 +12,15 @@ import CoreData
 @objc(Note)
 public class Note: NSManagedObject, Identifiable {
     @NSManaged
-    public var title: String
-    @NSManaged
     public var timestamp: Date
     @NSManaged
     public var text: String
+}
+
+public extension Note {
+    var title: String {
+        text.split(separator: "\n").first?.description ?? ""
+    }
 }
 
 public extension Note {

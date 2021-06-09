@@ -16,8 +16,7 @@ struct PersistenceController {
         for index in 0..<10 {
             let newItem = Note(context: viewContext)
             newItem.timestamp = Date()
-            newItem.title = "Note #\(index)"
-            newItem.text = "Note text for #\(index)"
+            newItem.text = "Note #\(index)\n"
         }
         do {
             try viewContext.save()
