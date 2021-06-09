@@ -26,6 +26,7 @@ struct NoteCardView: View {
         TextEditor(text: $text)
             .font(.body)
             .padding()
+            .navigationBarTitle("", displayMode: .inline)
         .onDisappear(perform: saveNote)
     }
     

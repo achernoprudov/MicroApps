@@ -22,7 +22,7 @@ struct ContentView: View {
 
     var body: some View {
         List {
-            ForEach(notes) { note in
+            ForEach(notes, id: \.listId) { note in
                 NavigationLink(
                     destination: NoteCardView(note: note),
                     label: {
@@ -44,7 +44,6 @@ struct ContentView: View {
             }
         }
         .navigationTitle("Micro notes")
-        
     }
 
     private func addItem() {

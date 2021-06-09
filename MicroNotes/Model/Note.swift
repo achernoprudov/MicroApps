@@ -18,6 +18,10 @@ public class Note: NSManagedObject, Identifiable {
 }
 
 public extension Note {
+    var listId: String {
+        "\(id) + \(title)"
+    }
+    
     var title: String {
         text.split(separator: "\n").first?.description ?? ""
     }
