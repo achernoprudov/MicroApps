@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:MicroToDo/MicroToDo.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:MicroNotes/MicroNotes.xcodeproj">
    </FileRef>
 </Workspace>
