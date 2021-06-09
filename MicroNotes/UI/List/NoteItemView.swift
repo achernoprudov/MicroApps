@@ -10,6 +10,7 @@ import CoreData
 
 struct NoteItemView: View {
     
+    
     let note: Note
     
     var body: some View {

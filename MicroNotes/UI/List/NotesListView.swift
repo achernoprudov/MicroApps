@@ -23,7 +23,12 @@ struct ContentView: View {
     var body: some View {
         List {
             ForEach(notes) { note in
-                NoteItemView(note: note)
+                NavigationLink(
+                    destination: NoteCardView(note: note),
+                    label: {
+                        NoteItemView(note: note)
+                    })
+                
             }
             .onDelete(perform: deleteItems)
         }
