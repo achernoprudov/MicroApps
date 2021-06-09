@@ -24,9 +24,8 @@ public extension Note {
         return NSFetchRequest<Note>(entityName: "Note")
     }
     
-    class func fetchFirst(with context: NSManagedObjectContext) throws -> Note? {
+    class func fetchAll(with context: NSManagedObjectContext) throws -> [Note] {
         let request: NSFetchRequest<Note> = fetchRequest()
-        request.fetchLimit = 1
-        return try context.fetch(request).first
+        return try context.fetch(request)
     }
 }

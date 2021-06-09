@@ -31,11 +31,12 @@ private let timestampFormatter: RelativeDateTimeFormatter = {
 
 struct NoteItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let note = try! Note.fetchFirst(with: PersistenceController.preview.container.viewContext)
+        let notes = try! Note.fetchAll(with: PersistenceController.preview.container.viewContext)
         
-        if let note = note {
-            return NoteItemView(note: note)
+        return List {
+            ForEach(notes) { note in
+                NoteItemView(note: note)
+            }
         }
-        return Text("Failure")
     }
 }
