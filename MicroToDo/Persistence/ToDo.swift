@@ -21,6 +21,13 @@ public class ToDo: NSManagedObject, Identifiable {
 }
 
 extension ToDo {
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        created = Date()
+    }
+}
+
+extension ToDo {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ToDo> {
         return NSFetchRequest<ToDo>(entityName: "ToDo")
     }

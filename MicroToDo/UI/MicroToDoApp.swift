@@ -13,7 +13,7 @@ struct MicroToDoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

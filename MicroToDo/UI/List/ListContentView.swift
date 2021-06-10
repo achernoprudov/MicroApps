@@ -12,32 +12,40 @@ struct ListContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \ToDo.created, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var items: FetchedResults<ToDo>
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+            List {
+                ForEach(items) { item in
+                    Text("Item at \(item.created, formatter: itemFormatter)")
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
-
+            
             Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+                Image(systemName: "plus")
+                    .foregroundColor(.white)
             }
+            .frame(width: 60, height: 60, alignment: .center)
+            .background(
+                Circle()
+                    .foregroundColor(.blue)
+            )
+            .padding(20)
+            .shadow(radius: 10)
+        }
+        .navigationTitle("Micro ToDo")
+        .toolbar {
+            EditButton()
         }
     }
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newItem = ToDo(context: viewContext)
 
             do {
                 try viewContext.save()
@@ -75,6 +83,9 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ListContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationView {
+            ListContentView()
+        }
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
