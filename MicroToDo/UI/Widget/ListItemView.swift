@@ -28,7 +28,7 @@ struct ListItemView: View {
         VStack {
             HStack {
                 CheckBoxView(checked: item.done, onChecked: onChecked)
-                TextField("ToDo item", text: $value, onEditingChanged: onEditingChanged)
+                TextField("New ToDo", text: $value, onEditingChanged: onEditingChanged)
             }
             if let doneAt = item.doneAt {
                 Text(doneAt, formatter: itemFormatter)

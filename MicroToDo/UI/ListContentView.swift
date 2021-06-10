@@ -22,7 +22,7 @@ struct ListContentView: View {
     
     @FetchRequest(
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \ToDo.created, ascending: true)
+            NSSortDescriptor(keyPath: \ToDo.doneAt, ascending: false)
         ],
         predicate: NSPredicate(format: "%K = YES", #keyPath(ToDo.done)),
         animation: .default
