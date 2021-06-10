@@ -12,17 +12,39 @@ struct ListContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \ToDo.created, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<ToDo>
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \ToDo.created, ascending: true)
+        ],
+        predicate: NSPredicate(format: "%K = NO", #keyPath(ToDo.done)),
+        animation: .default
+    )
+    private var todoItems: FetchedResults<ToDo>
+    
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \ToDo.created, ascending: true)
+        ],
+        predicate: NSPredicate(format: "%K = YES", #keyPath(ToDo.done)),
+        animation: .default
+    )
+    private var completedItems: FetchedResults<ToDo>
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             List {
-                ForEach(items) { item in
-                    Text("Item at \(item.created, formatter: itemFormatter)")
+                Section(header: Text("ToDo")) {
+                    ForEach(todoItems) { item in
+                        ListItemView(item: item)
+                    }
+                    .onDelete(perform: deleteItems)
                 }
-                .onDelete(perform: deleteItems)
+                
+                Section(header: Text("Completed")) {
+                    ForEach(completedItems) { item in
+                        ListItemView(item: item)
+                    }
+                    .onDelete(perform: deleteItems)
+                }
             }
             
             Button(action: addItem) {
@@ -60,7 +82,7 @@ struct ListContentView: View {
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { todoItems[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
@@ -73,13 +95,6 @@ struct ListContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
