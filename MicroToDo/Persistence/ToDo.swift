@@ -25,6 +25,13 @@ extension ToDo {
         super.awakeFromInsert()
         created = Date()
     }
+    
+    public override func willSave() {
+        super.willSave()
+        
+        let doneAt: Date? = done ? Date() : nil
+        setPrimitiveValue(doneAt, forKey: #keyPath(ToDo.doneAt))
+    }
 }
 
 extension ToDo {

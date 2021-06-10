@@ -34,10 +34,9 @@ struct ListContentView: View {
             List {
                 Section(header: Text("ToDo")) {
                     ForEach(todoItems) { item in
-                        ListItemView(item: item)
-                            .onTapGesture {
-                                toggle(item: item)
-                            }
+                        ListItemView(item: item) {
+                            toggle(item: item)
+                        }
                     }
                     .onDelete(perform: deleteItems)
                 }
@@ -47,10 +46,9 @@ struct ListContentView: View {
                 } else {
                     Section(header: Text("Completed")) {
                         ForEach(completedItems) { item in
-                            ListItemView(item: item)
-                                .onTapGesture {
-                                    toggle(item: item)
-                                }
+                            ListItemView(item: item) {
+                                toggle(item: item)
+                            }
                         }
                         .onDelete(perform: deleteItems)
                     }
@@ -77,7 +75,7 @@ struct ListContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = ToDo(context: viewContext)
+            _ = ToDo(context: viewContext)
 
             do {
                 try viewContext.save()

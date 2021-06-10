@@ -9,23 +9,33 @@ import SwiftUI
 
 struct ListItemView: View {
     
-    private let item: ToDo
-    
     @State
     private var value: String
     
     @Environment(\.managedObjectContext)
     private var viewContext
     
-    init(item: ToDo) {
+    private let item: ToDo
+    private let onChecked: () -> Void
+    
+    init(item: ToDo, onChecked: @escaping () -> Void) {
         self.item = item
-        value = item.title
+        self.value = item.title
+        self.onChecked = onChecked
     }
     
     var body: some View {
-        HStack {
-            CheckBoxView(checked: item.done)
-            TextField("ToDo item", text: $value, onEditingChanged: onEditingChanged)
+        VStack {
+            HStack {
+                CheckBoxView(checked: item.done, onChecked: onChecked)
+                TextField("ToDo item", text: $value, onEditingChanged: onEditingChanged)
+            }
+            if let doneAt = item.doneAt {
+                Text(doneAt, formatter: itemFormatter)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
         }
     }
     
@@ -38,7 +48,6 @@ struct ListItemView: View {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
-        
     }
 }
 
