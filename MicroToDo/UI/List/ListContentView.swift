@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ListContentView.swift
 //  MicroToDo
 //
 //  Created by Andrey Chernoprudov on 09.06.2021.
@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct ListContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -75,6 +75,6 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ListContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
