@@ -9,21 +9,12 @@ import SwiftUI
 
 struct ListItemView: View {
     
-    private let item: ToDo
-    
-    @State
-    private var isOn: Bool
-    
-    init(item: ToDo) {
-        self.item = item
-        isOn = item.done
-    }
+    let item: ToDo
     
     var body: some View {
         HStack {
-            Toggle(isOn: $isOn, label: {
-                Text(item.title)
-            })
+            CheckBoxView(checked: item.done)
+            Text(item.title)
         }
     }
 }

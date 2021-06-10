@@ -35,15 +35,25 @@ struct ListContentView: View {
                 Section(header: Text("ToDo")) {
                     ForEach(todoItems) { item in
                         ListItemView(item: item)
+                            .onTapGesture {
+                                toggle(item: item)
+                            }
                     }
                     .onDelete(perform: deleteItems)
                 }
                 
-                Section(header: Text("Completed")) {
-                    ForEach(completedItems) { item in
-                        ListItemView(item: item)
+                if completedItems.isEmpty {
+                    EmptyView()
+                } else {
+                    Section(header: Text("Completed")) {
+                        ForEach(completedItems) { item in
+                            ListItemView(item: item)
+                                .onTapGesture {
+                                    toggle(item: item)
+                                }
+                        }
+                        .onDelete(perform: deleteItems)
                     }
-                    .onDelete(perform: deleteItems)
                 }
             }
             
@@ -85,6 +95,21 @@ struct ListContentView: View {
             offsets.map { todoItems[$0] }.forEach(viewContext.delete)
 
             do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
+    
+    private func toggle(item: ToDo) {
+        withAnimation {
+            do {
+                item.done.toggle()
+                
                 try viewContext.save()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
