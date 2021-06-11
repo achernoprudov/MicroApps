@@ -28,11 +28,19 @@ struct Provider: IntentTimelineProvider {
         in context: Context,
         completion: @escaping (Timeline<Entry>) -> ()
     ) {
-        let entries: [ListEntry] = [
-            ListEntry(titles: ["foo", "bar"], configuration: configuration)
-        ]
-        let timeline = Timeline(entries: entries, policy: .never)
-        completion(timeline)
+        PersistenceController.shared.container.performBackgroundTask { context in
+            var titles: [String] = []
+            
+            do {
+                let todos = try ToDo.fetchTopUncompleted(with: context)
+                titles = todos.map(\.title)
+            } catch {
+                fatalError("Failed to fetch ToDos. Reason: \(error)")
+            }
+            let entry = ListEntry(titles: titles, configuration: configuration)
+            let timeline = Timeline(entries: [entry], policy: .never)
+            completion(timeline)
+        }
     }
 }
 

@@ -38,4 +38,15 @@ extension ToDo {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ToDo> {
         return NSFetchRequest<ToDo>(entityName: "ToDo")
     }
+    
+    @nonobjc
+    public class func fetchTopUncompleted(
+        with context: NSManagedObjectContext
+    ) throws -> [ToDo] {
+        let request = NSFetchRequest<ToDo>(entityName: "ToDo")
+        request.fetchLimit = 10
+        request.predicate = NSPredicate(format: "%K = NO", #keyPath(ToDo.done))
+        
+        return try context.fetch(request)
+    }
 }
