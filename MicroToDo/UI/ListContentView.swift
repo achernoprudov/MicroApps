@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import WidgetKit
 
 struct ListContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -71,6 +72,9 @@ struct ListContentView: View {
         .toolbar {
             EditButton()
         }
+        .onDisappear {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 
     private func addItem() {
@@ -119,5 +123,6 @@ struct ContentView_Previews: PreviewProvider {
             ListContentView()
         }
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        .preferredColorScheme(.dark)
     }
 }

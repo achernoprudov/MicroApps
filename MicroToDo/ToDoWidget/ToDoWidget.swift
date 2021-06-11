@@ -10,16 +10,16 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+    func placeholder(in context: Context) -> ListEntry {
+        ListEntry(titles: [], configuration: ConfigurationIntent())
     }
 
     func getSnapshot(
         for configuration: ConfigurationIntent,
         in context: Context,
-        completion: @escaping (SimpleEntry) -> ()
+        completion: @escaping (ListEntry) -> ()
     ) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+        let entry = ListEntry(titles: ["loading"], configuration: configuration)
         completion(entry)
     }
 
@@ -28,23 +28,17 @@ struct Provider: IntentTimelineProvider {
         in context: Context,
         completion: @escaping (Timeline<Entry>) -> ()
     ) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let entries: [ListEntry] = [
+            ListEntry(titles: ["foo", "bar"], configuration: configuration)
+        ]
+        let timeline = Timeline(entries: entries, policy: .never)
         completion(timeline)
     }
 }
 
-struct SimpleEntry: TimelineEntry {
-    let date: Date
+struct ListEntry: TimelineEntry {
+    let titles: [String]
+    let date = Date()
     let configuration: ConfigurationIntent
 }
 
@@ -52,7 +46,31 @@ struct ToDoWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        ZStack {
+            AppBackground()
+            
+            if entry.titles.isEmpty {
+                VStack(spacing: 10) {
+                    Text("Add ToDo")
+                    Image(systemName: "plus")
+                }
+                .padding()
+            } else {
+                VStack {
+                    ForEach(entry.titles, id: \.description) { title in
+                        HStack(alignment: .top) {
+                            CheckBoxView(checked: false, onChecked: {})
+                                .padding(.top, 2)
+                            Text(title)
+                                .lineLimit(2)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+        }
     }
 }
 
@@ -75,7 +93,24 @@ struct ToDoWidget: Widget {
 
 struct ToDoWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ToDoWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        ToDoWidgetEntryView(
+            entry: ListEntry(
+                titles: [
+                    "buy milk for mike",
+                    "find zoo",
+                    "ca l",
+//                    "ca l",
+//                    "ca l",
+//                    "ca l",
+//                    "ca l",
+//                    "ca l",
+//                    "ca l",
+//                    "ca l"
+                ],
+                configuration: ConfigurationIntent()
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
+        .preferredColorScheme(.dark)
     }
 }
