@@ -9,7 +9,7 @@
 import CoreData
 
 @objc(ToDo)
-public class ToDo: NSManagedObject, Identifiable {
+public class ToDo: NSManagedObject {
     @NSManaged
     public var created: Date
     @NSManaged
@@ -21,6 +21,11 @@ public class ToDo: NSManagedObject, Identifiable {
 }
 
 extension ToDo {
+    
+    var listIdentifier: String {
+        "\(objectID):\(done)"
+    }
+    
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         created = Date()

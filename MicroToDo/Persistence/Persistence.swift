@@ -34,7 +34,13 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "MicroToDo")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.micro.todo")!
+            let storeURL = containerURL.appendingPathComponent("MicroToDo.sqlite")
+            let description = NSPersistentStoreDescription(url: storeURL)
+            container.persistentStoreDescriptions = [description]
         }
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

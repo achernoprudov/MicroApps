@@ -34,7 +34,7 @@ struct ListContentView: View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             List {
                 Section(header: Text("ToDo")) {
-                    ForEach(todoItems) { item in
+                    ForEach(todoItems, id: \.listIdentifier) { item in
                         ListItemView(item: item) {
                             toggle(item: item)
                         }
@@ -46,7 +46,7 @@ struct ListContentView: View {
                     EmptyView()
                 } else {
                     Section(header: Text("Completed")) {
-                        ForEach(completedItems) { item in
+                        ForEach(completedItems, id: \.listIdentifier) { item in
                             ListItemView(item: item) {
                                 toggle(item: item)
                             }
@@ -55,6 +55,8 @@ struct ListContentView: View {
                     }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
+            .environment(\.horizontalSizeClass, .regular)
             
             Button(action: addItem) {
                 Image(systemName: "plus")
@@ -72,9 +74,9 @@ struct ListContentView: View {
         .toolbar {
             EditButton()
         }
-        .onDisappear {
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification), perform: { _ in
             WidgetCenter.shared.reloadAllTimelines()
-        }
+        })
     }
 
     private func addItem() {
