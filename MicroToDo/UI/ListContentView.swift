@@ -36,43 +36,46 @@ struct ListContentView: View {
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
-            ScrollView {
-                LazyVStack(alignment: .leading, pinnedViews: .sectionHeaders) {
-                    Section(header: Text("ToDo").padding()) {
-                        ForEach(todoItems, id: \.listIdentifier) { item in
+            List {
+                ForEach(todoItems, id: \.listIdentifier) { item in
+                    HStack {
+                        ListItemView(
+                            item: item,
+                            onChecked: { toggle(item: item) }
+                        )
+                        Spacer()
+                    }
+                    .background(
+                        Rectangle()
+                            .foregroundColor(Color(UIColor.systemBackground))
+                    )
+                    .onTapGesture {
+                        editableItem = item
+                    }
+                }
+                .onDelete(perform: deleteItems)
+                
+                if completedItems.isEmpty {
+                    EmptyView()
+                } else {
+                    Section(header: Header(title: "Completed")) {
+                        ForEach(completedItems, id: \.listIdentifier) { item in
                             ListItemView(
                                 item: item,
                                 onChecked: { toggle(item: item) }
                             )
-                            .background(Color.clear)
+                            .background(
+                                Rectangle()
+                                    .foregroundColor(Color(UIColor.systemBackground))
+                            )
                             .onTapGesture {
                                 editableItem = item
                             }
                         }
                         .onDelete(perform: deleteItems)
                     }
-                    
-                    if completedItems.isEmpty {
-                        EmptyView()
-                    } else {
-                        Section(header: Text("Completed")) {
-                            ForEach(completedItems, id: \.listIdentifier) { item in
-                                ListItemView(
-                                    item: item,
-                                    onChecked: { toggle(item: item) }
-                                )
-                                .background(Color.clear)
-                                .onTapGesture {
-                                    editableItem = item
-                                }
-                            }
-                            .onDelete(perform: deleteItems)
-                        }
-                    }
-                    
                 }
             }
-//            .listStyle(PlainListStyle())
             .environment(\.horizontalSizeClass, .regular)
             
             Button(action: addItem) {
