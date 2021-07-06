@@ -41,9 +41,12 @@ struct ListContentView: View {
                     ForEach(todoItems, id: \.listIdentifier) { item in
                         ListItemView(
                             item: item,
-                            onChecked: { toggle(item: item) },
-                            onTap: { editableItem = item }
+                            onChecked: { toggle(item: item) }
                         )
+                        .background(Color.clear)
+                        .onTapGesture {
+                            editableItem = item
+                        }
                     }
                     .onDelete(perform: deleteItems)
                 }
@@ -55,9 +58,12 @@ struct ListContentView: View {
                         ForEach(completedItems, id: \.listIdentifier) { item in
                             ListItemView(
                                 item: item,
-                                onChecked: { toggle(item: item) },
-                                onTap: { editableItem = item }
+                                onChecked: { toggle(item: item) }
                             )
+                            .background(Color.clear)
+                            .onTapGesture {
+                                editableItem = item
+                            }
                         }
                         .onDelete(perform: deleteItems)
                     }
@@ -77,13 +83,16 @@ struct ListContentView: View {
             )
             .padding(20)
             .shadow(radius: 10)
-            
-            if let item = editableItem {
-                EditToDoView(todo: item, onClose: {
-                    self.editableItem = nil
-                })
-            }
         }
+        .popover(
+            item: $editableItem,
+            content: { item in
+                NavigationView {
+                    EditToDoView(todo: item, onClose: {
+                        self.editableItem = nil
+                    })
+                }
+            })
         .navigationTitle("Micro ToDo")
         .toolbar {
             EditButton()

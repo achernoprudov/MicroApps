@@ -17,29 +17,25 @@ struct ListItemView: View {
     
     private let item: ToDo
     private let onChecked: () -> Void
-    private let onTap: () -> Void
     
-    init(
-        item: ToDo,
-        onChecked: @escaping () -> Void,
-        onTap: @escaping () -> Void
-    ) {
+    init(item: ToDo, onChecked: @escaping () -> Void) {
         self.item = item
         self.value = item.title
         self.onChecked = onChecked
-        self.onTap = onTap
     }
     
     var body: some View {
         VStack {
-            HStack {
+            HStack(alignment: .top) {
                 CheckBoxView(checked: item.done, onChecked: onChecked)
                 
                 Text(item.title.isEmpty ? "New ToDo" : item.title)
                     .font(.body)
                     .if(item.done) { $0.strikethrough() }
+                    .lineLimit(3)
                     .if(item.title.isEmpty) { $0.foregroundColor(.gray) }
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    
             }
             if let doneAt = item.doneAt {
                 Text(doneAt, formatter: itemFormatter)
@@ -48,7 +44,6 @@ struct ListItemView: View {
                     .foregroundColor(.gray)
             }
         }
-        .onTapGesture(perform: onTap)
     }
 }
 

@@ -20,6 +20,10 @@ public class ToDo: NSManagedObject {
     public var doneAt: Date?
 }
 
+extension ToDo: Identifiable {
+    public var id: NSManagedObjectID { objectID }
+}
+
 extension ToDo {
     
     var listIdentifier: String {

@@ -18,27 +18,16 @@ struct EditToDoView: View {
     private var viewContext
     
     var body: some View {
-        ZStack {
-            Color.black.opacity(0.8)
-                .onTapGesture(perform: onClose)
-            
-            VStack(alignment: .center, spacing: 8) {
-                HStack {
-                    Button("Cancel", action: onClose)
-                    Spacer()
-                    Button("Save", action: saveAndClose)
-                }
-                .padding(.horizontal, 4)
-                
-                TextEditor(text: $text)
-            }
-            .padding()
-            .background(
-                Color(UIColor.systemBackground)
-                    .cornerRadius(10, corners: [.topLeft, .topRight])
-            )
-            .padding(.top, 100)
+        VStack {
+            Divider()
+            TextEditor(text: $text)
+                .padding()
         }
+        .navigationBarTitle("Edit ToDo", displayMode: .large)
+        .navigationBarItems(
+            leading: Button("Cancel", action: onClose),
+            trailing: Button("Save", action: saveAndClose)
+        )
     }
     
     init(
