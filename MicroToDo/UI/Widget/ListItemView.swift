@@ -44,6 +44,8 @@ struct ListItemView: View {
                     .foregroundColor(.gray)
             }
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 4)
     }
 }
 
