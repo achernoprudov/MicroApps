@@ -29,15 +29,20 @@ struct ListContentView: View {
         animation: .default
     )
     private var completedItems: FetchedResults<ToDo>
+    
+    @State
+    private var editableItem: ToDo?
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             List {
                 Section(header: Text("ToDo")) {
                     ForEach(todoItems, id: \.listIdentifier) { item in
-                        ListItemView(item: item) {
-                            toggle(item: item)
-                        }
+                        ListItemView(
+                            item: item,
+                            onChecked: { toggle(item: item) },
+                            onTap: { editableItem = item }
+                        )
                     }
                     .onDelete(perform: deleteItems)
                 }
@@ -47,9 +52,11 @@ struct ListContentView: View {
                 } else {
                     Section(header: Text("Completed")) {
                         ForEach(completedItems, id: \.listIdentifier) { item in
-                            ListItemView(item: item) {
-                                toggle(item: item)
-                            }
+                            ListItemView(
+                                item: item,
+                                onChecked: { toggle(item: item) },
+                                onTap: { editableItem = item }
+                            )
                         }
                         .onDelete(perform: deleteItems)
                     }
@@ -116,6 +123,10 @@ struct ListContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
+    }
+    
+    private func edit(item: ToDo) {
+        
     }
 }
 
