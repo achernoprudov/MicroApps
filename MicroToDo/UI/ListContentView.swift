@@ -10,7 +10,8 @@ import CoreData
 import WidgetKit
 
 struct ListContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.managedObjectContext)
+    private var viewContext
 
     @FetchRequest(
         sortDescriptors: [
@@ -76,6 +77,12 @@ struct ListContentView: View {
             )
             .padding(20)
             .shadow(radius: 10)
+            
+            if let item = editableItem {
+                EditToDoView(todo: item, onClose: {
+                    self.editableItem = nil
+                })
+            }
         }
         .navigationTitle("Micro ToDo")
         .toolbar {
@@ -136,6 +143,6 @@ struct ContentView_Previews: PreviewProvider {
             ListContentView()
         }
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
     }
 }
