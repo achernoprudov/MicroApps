@@ -33,8 +33,11 @@ struct EditToDoView: View {
                 TextEditor(text: $text)
             }
             .padding()
-            .background(Color(UIColor.systemBackground))
-            .padding(.top, 200)
+            .background(
+                Color(UIColor.systemBackground)
+                    .cornerRadius(10, corners: [.topLeft, .topRight])
+            )
+            .padding(.top, 100)
         }
     }
     
