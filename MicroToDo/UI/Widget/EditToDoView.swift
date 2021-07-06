@@ -41,15 +41,7 @@ struct EditToDoView: View {
     
     func saveAndClose() {
         todo.title = text
-        
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        withAnimation {
-            onClose()
-        }
+        viewContext.saveOrCrash()
+        onClose()
     }
 }

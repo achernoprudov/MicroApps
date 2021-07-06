@@ -15,7 +15,7 @@ struct ListContentView: View {
 
     @FetchRequest(
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \ToDo.created, ascending: true)
+            NSSortDescriptor(keyPath: \ToDo.created, ascending: false)
         ],
         predicate: NSPredicate(format: "%K = NO", #keyPath(ToDo.done)),
         animation: .default
@@ -46,8 +46,7 @@ struct ListContentView: View {
                         Spacer()
                     }
                     .background(
-                        Rectangle()
-                            .foregroundColor(Color(UIColor.systemBackground))
+                        Rectangle().opacity(0.00001)
                     )
                     .onTapGesture {
                         editableItem = item
@@ -65,8 +64,7 @@ struct ListContentView: View {
                                 onChecked: { toggle(item: item) }
                             )
                             .background(
-                                Rectangle()
-                                    .foregroundColor(Color(UIColor.systemBackground))
+                                Rectangle().opacity(0.00001)
                             )
                             .onTapGesture {
                                 editableItem = item
@@ -90,7 +88,7 @@ struct ListContentView: View {
             .padding(20)
             .shadow(radius: 10)
         }
-        .popover(
+        .sheet(
             item: $editableItem,
             content: { item in
                 NavigationView {
@@ -110,45 +108,23 @@ struct ListContentView: View {
 
     private func addItem() {
         withAnimation {
-            _ = ToDo(context: viewContext)
-
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            editableItem = ToDo(context: viewContext)
+            viewContext.saveOrCrash()
         }
     }
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { todoItems[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            viewContext.saveOrCrash()
         }
     }
     
     private func toggle(item: ToDo) {
         withAnimation {
-            do {
-                item.done.toggle()
-                
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            item.done.toggle()
+            viewContext.saveOrCrash()
         }
-    }
-    
-    private func edit(item: ToDo) {
-        
     }
 }
 
