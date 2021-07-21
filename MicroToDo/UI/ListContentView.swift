@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import WidgetKit
+import ToDoCore
 
 struct ListContentView: View {
     @Environment(\.managedObjectContext)

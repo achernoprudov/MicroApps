@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToDoCore
 
 struct ListItemView: View {
     

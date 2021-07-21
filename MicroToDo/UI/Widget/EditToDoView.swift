@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToDoCore
 
 struct EditToDoView: View {
     private let todo: ToDo

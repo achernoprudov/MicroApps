@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToDoCore
 
 @main
 struct MicroToDoApp: App {

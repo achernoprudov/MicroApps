@@ -1,16 +1,19 @@
 //
 //  Persistence.swift
-//  MicroToDo
+//  ToDoCore
 //
 //  Created by Andrey Chernoprudov on 09.06.2021.
 //
 
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+public struct PersistenceController {
+    
+    // MARK: - Static
+    
+    public static let shared = PersistenceController()
 
-    static var preview: PersistenceController = {
+    public static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for index in 0..<10 {
@@ -27,11 +30,19 @@ struct PersistenceController {
         }
         return result
     }()
+    
+    // MARK: - Instance variables
 
-    let container: NSPersistentContainer
+    public let container: NSPersistentContainer
+    
+    // MARK: - Public
 
-    init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "MicroToDo")
+    public init(inMemory: Bool = false) {
+        let frameworkBundleIdentifier = "app.micro.ToDoCore"
+        let customKitBundle = Bundle(identifier: frameworkBundleIdentifier)!
+        let modelURL = customKitBundle.url(forResource: "MicroToDo", withExtension: "momd")!
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
+        container = NSPersistentContainer(name: "MicroToDo", managedObjectModel: managedObjectModel)
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         } else {

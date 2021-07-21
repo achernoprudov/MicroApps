@@ -1,6 +1,6 @@
 //
 //  ToDo.swift
-//  MicroToDo
+//  ToDoCore
 //
 //  Created by Andrey Chernoprudov on 10.06.2021.
 //
@@ -24,18 +24,18 @@ extension ToDo: Identifiable {
     public var id: NSManagedObjectID { objectID }
 }
 
-extension ToDo {
+public extension ToDo {
     
     var listIdentifier: String {
         "\(objectID):\(done)"
     }
     
-    public override func awakeFromInsert() {
+    override func awakeFromInsert() {
         super.awakeFromInsert()
         created = Date()
     }
     
-    public override func willSave() {
+    override func willSave() {
         super.willSave()
         
         let doneAt: Date? = done ? Date() : nil
@@ -43,13 +43,13 @@ extension ToDo {
     }
 }
 
-extension ToDo {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<ToDo> {
+public extension ToDo {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<ToDo> {
         return NSFetchRequest<ToDo>(entityName: "ToDo")
     }
     
     @nonobjc
-    public class func fetchTopUncompleted(
+    class func fetchTopUncompleted(
         with context: NSManagedObjectContext
     ) throws -> [ToDo] {
         let request = NSFetchRequest<ToDo>(entityName: "ToDo")

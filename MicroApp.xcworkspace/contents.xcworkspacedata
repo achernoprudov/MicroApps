@@ -5,6 +5,9 @@
       location = "group:MicroNotes/../README.md">
    </FileRef>
    <FileRef
+      location = "group:ToDoCore/ToDoCore.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:MicroToDo/MicroToDo.xcodeproj">
    </FileRef>
    <FileRef
