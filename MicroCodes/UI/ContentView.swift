@@ -25,6 +25,7 @@ struct ContentView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationBarItems(trailing: EditButton())
+        .navigationTitle("MicroCodes")
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
