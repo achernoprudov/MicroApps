@@ -13,4 +13,7 @@
    <FileRef
       location = "group:MicroNotes/MicroNotes.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:MicroCodes/MicroCodes.xcodeproj">
+   </FileRef>
 </Workspace>
