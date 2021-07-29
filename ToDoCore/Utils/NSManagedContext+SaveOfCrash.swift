@@ -1,13 +1,13 @@
 //
 //  NSManagedContext+SaveOfCrash.swift
-//  MicroToDo
+//  ToDoCore
 //
 //  Created by Andrey Chernoprudov on 06.07.2021.
 //
 
 import CoreData
 
-extension NSManagedObjectContext {
+public extension NSManagedObjectContext {
     func saveOrCrash() {
         do {
             try save()

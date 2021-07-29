@@ -38,7 +38,14 @@ public struct PersistenceController {
     // MARK: - Public
 
     public init(inMemory: Bool = false) {
-        let frameworkBundleIdentifier = "app.micro.ToDoCore"
+        #if os(iOS)
+            let frameworkBundleIdentifier = "app.micro.ToDoCore"
+        #elseif os(watchOS)
+            let frameworkBundleIdentifier = "app.micro.ToDoWatchCore"
+        #else
+            preconditionFailure("Bundle is not defined")
+        #endif
+        
         let customKitBundle = Bundle(identifier: frameworkBundleIdentifier)!
         let modelURL = customKitBundle.url(forResource: "MicroToDo", withExtension: "momd")!
         let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
