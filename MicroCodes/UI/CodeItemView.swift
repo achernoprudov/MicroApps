@@ -49,6 +49,5 @@ struct CodeItemView_Previews: PreviewProvider {
             
         }
         .listStyle(PlainListStyle())
-        
     }
 }
