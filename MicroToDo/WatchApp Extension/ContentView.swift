@@ -34,6 +34,7 @@ struct ContentView: View {
                 })
             }
         }
+        .navigationTitle("Micro ToDo")
     }
     
     private func complete(_ item: ToDo) {
@@ -45,7 +46,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationView {
+            ContentView()
+        }
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

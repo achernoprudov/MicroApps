@@ -33,7 +33,7 @@ public struct PersistenceController {
     
     // MARK: - Instance variables
 
-    public let container: NSPersistentContainer
+    public let container: NSPersistentCloudKitContainer
     
     // MARK: - Public
 
@@ -49,14 +49,9 @@ public struct PersistenceController {
         let customKitBundle = Bundle(identifier: frameworkBundleIdentifier)!
         let modelURL = customKitBundle.url(forResource: "MicroToDo", withExtension: "momd")!
         let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
-        container = NSPersistentContainer(name: "MicroToDo", managedObjectModel: managedObjectModel)
+        container = NSPersistentCloudKitContainer(name: "MicroToDo", managedObjectModel: managedObjectModel)
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        } else {
-            let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.micro.todo")!
-            let storeURL = containerURL.appendingPathComponent("MicroToDo.sqlite")
-            let description = NSPersistentStoreDescription(url: storeURL)
-            container.persistentStoreDescriptions = [description]
         }
         
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
