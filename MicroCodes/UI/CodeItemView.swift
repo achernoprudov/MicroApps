@@ -24,8 +24,8 @@ struct CodeItemView: View {
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .bottomTrailing) {
-            Text("timer")
-                .font(Font.footnote)
+            TimerShape()
+                .frame(width: 10, height: 10, alignment: .center)
                 .padding(20)
         }
         .background(Color(UIColor.systemBackground))
