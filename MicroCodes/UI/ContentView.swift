@@ -12,18 +12,19 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Code.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \CodeItem.creationDate, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Code>
+    private var items: FetchedResults<CodeItem>
 
     var body: some View {
         List {
             ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                CodeItemView(code: "111 222", title: item.title)
+                    .listRowSeparator(.hidden)
             }
             .onDelete(perform: deleteItems)
         }
-        .listStyle(GroupedListStyle())
+        .listStyle(PlainListStyle())
         .navigationBarItems(trailing: EditButton())
         .navigationTitle("MicroCodes")
         .toolbar {
@@ -39,8 +40,9 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Code(context: viewContext)
-            newItem.timestamp = Date()
+            let newItem = CodeItem(context: viewContext)
+            newItem.title = "Super code"
+            newItem.creationDate = Date()
 
             do {
                 try viewContext.save()

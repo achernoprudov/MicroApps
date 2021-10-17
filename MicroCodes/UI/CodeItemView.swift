@@ -38,7 +38,7 @@ struct CodeItemView: View {
 struct CodeItemView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            CodeItemView(code: "131 113", title: "Amazon account")
+            CodeItemView(code: "131 113", title: "Amazon")
                 .listRowSeparator(.hidden)
             
             CodeItemView(code: "811 001", title: "Github")
