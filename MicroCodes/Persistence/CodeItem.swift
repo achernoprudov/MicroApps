@@ -16,6 +16,7 @@ public class CodeItem: NSManagedObject {
 
     @NSManaged public var title: String
     @NSManaged public var creationDate: Date
+    @NSManaged public var key: Data
 }
 
 extension CodeItem: Identifiable {

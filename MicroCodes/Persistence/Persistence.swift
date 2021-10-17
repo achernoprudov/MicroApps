@@ -17,6 +17,7 @@ struct PersistenceController {
             let newItem = CodeItem(context: viewContext)
             newItem.creationDate = Date()
             newItem.title = "Foo bar"
+            
         }
         do {
             try viewContext.save()
