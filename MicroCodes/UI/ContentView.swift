@@ -15,6 +15,9 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \CodeItem.creationDate, ascending: true)],
         animation: .default)
     private var items: FetchedResults<CodeItem>
+    
+    @State
+    var addCodePresented = false
 
     var body: some View {
         List {
@@ -30,19 +33,28 @@ struct ContentView: View {
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
-
-                Button(action: addItem) {
+                
+                Button {
+                    addCodePresented = true
+                } label: {
                     Label("Add Item", systemImage: "plus")
                 }
             }
         }
+        .popover(isPresented: $addCodePresented) {
+            AddCodeView { title, key in
+                addCodePresented = false
+                addItem(title: title, key: key)
+            }
+        }
     }
 
-    private func addItem() {
+    private func addItem(title: String, key: String) {
         withAnimation {
             let newItem = CodeItem(context: viewContext)
-            newItem.title = "Super code"
+            newItem.title = title
             newItem.creationDate = Date()
+            newItem.key = Data(key.utf8).base64EncodedData()
 
             do {
                 try viewContext.save()
