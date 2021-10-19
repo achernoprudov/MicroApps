@@ -15,7 +15,7 @@ struct TimerShape: Shape {
         lineCap: .round
     )
     
-    private static let arcPart: Double = 0.125
+    private static let arcPart: Double = 0.0625
     
     // MARK: - Instance variables
     

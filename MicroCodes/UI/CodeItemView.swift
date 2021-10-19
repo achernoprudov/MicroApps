@@ -24,7 +24,7 @@ struct CodeItemView: View {
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .bottomTrailing) {
-            TimerShape(progress: 0.15)
+            AnimatedTimerWrapperView()
                 .frame(width: 10, height: 10, alignment: .center)
                 .padding(20)
         }
