@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AnimatedTimerWrapperView: View {
+    
+    private static let timerSeconds = 30
+    
     @State
     private var progress: Double
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -24,8 +27,8 @@ struct AnimatedTimerWrapperView: View {
     }
     
     private static func calculateProgress(for date: Date) -> Double {
-        let secs = Int(date.timeIntervalSince1970) % 30
-        return 1 - Double(secs) / 30
+        let secs = Int(date.timeIntervalSince1970) % Self.timerSeconds
+        return 1 - Double(secs) / Double(Self.timerSeconds)
     }
 }
 

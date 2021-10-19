@@ -25,7 +25,7 @@ struct TimerShape: Shape {
     // MARK: - Public
     
     internal init(progress: Double) {
-        let parts = (progress / Self.arcPart).rounded()
+        let parts = (progress / Self.arcPart).rounded(.up)
         endAngle = startRadians + (2 * .pi * (parts * Self.arcPart))
     }
     
@@ -48,6 +48,9 @@ struct TimerShape: Shape {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
+            TimerShape(progress: 0.001)
+                .frame(width: 50, height: 100, alignment: .center)
+            
             TimerShape(progress: 0.1)
                 .frame(width: 50, height: 100, alignment: .center)
             
@@ -59,6 +62,10 @@ struct TimerView_Previews: PreviewProvider {
     
             TimerShape(progress: 0.9)
                 .frame(width: 50, height: 100, alignment: .center)
+            
+            TimerShape(progress: 1)
+                .frame(width: 50, height: 100, alignment: .center)
+            
         }
     }
 }
