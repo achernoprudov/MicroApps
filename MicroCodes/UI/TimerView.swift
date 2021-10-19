@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TimerShape: Shape {
-    
     // MARK: - Static
     
     private static let strokeStyle = StrokeStyle(
@@ -16,9 +15,19 @@ struct TimerShape: Shape {
         lineCap: .round
     )
     
+    private static let arcPart: Double = 0.125
+    
     // MARK: - Instance variables
     
+    private let startRadians: Double = 3 * .pi / 2
+    private let endAngle: Double
+    
     // MARK: - Public
+    
+    internal init(progress: Double) {
+        let parts = (progress / Self.arcPart).rounded()
+        endAngle = startRadians + (2 * .pi * (parts * Self.arcPart))
+    }
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -28,8 +37,8 @@ struct TimerShape: Shape {
         path.addArc(
             center: center,
             radius: size,
-            startAngle: .radians(.pi * 3 / 2),
-            endAngle: .radians(.pi * 2),
+            startAngle: .radians(endAngle),
+            endAngle: .radians(startRadians),
             clockwise: true
         )
         return path.strokedPath(Self.strokeStyle)
@@ -38,7 +47,18 @@ struct TimerShape: Shape {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerShape()
-            .frame(width: 200, height: 130, alignment: .center)
+        VStack {
+            TimerShape(progress: 0.1)
+                .frame(width: 50, height: 100, alignment: .center)
+            
+            TimerShape(progress: 0.25)
+                .frame(width: 50, height: 100, alignment: .center)
+            
+            TimerShape(progress: 0.5)
+                .frame(width: 50, height: 150, alignment: .center)
+    
+            TimerShape(progress: 0.9)
+                .frame(width: 50, height: 100, alignment: .center)
+        }
     }
 }
