@@ -9,15 +9,23 @@ import SwiftUI
 
 struct AnimatedTimerWrapperView: View {
     @State
-    private var progress: Double = 0
+    private var progress: Double
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         TimerShape(progress: progress)
-            .onReceive(timer) { sec in
-                let secs = Int(sec.timeIntervalSince1970) % 30
-                progress = 1 - Double(secs) / 30
+            .onReceive(timer) { date in
+                progress = Self.calculateProgress(for: date)
             }
+    }
+    
+    init() {
+        progress = Self.calculateProgress(for: Date())
+    }
+    
+    private static func calculateProgress(for date: Date) -> Double {
+        let secs = Int(date.timeIntervalSince1970) % 30
+        return 1 - Double(secs) / 30
     }
 }
 
