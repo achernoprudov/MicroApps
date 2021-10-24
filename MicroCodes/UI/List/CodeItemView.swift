@@ -13,7 +13,7 @@ struct CodeItemView: View {
     let title: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 20) {
             Text(code)
                 .font(Font.title)
                 .foregroundColor(.white)

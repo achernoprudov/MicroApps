@@ -13,3 +13,6 @@ Small applications for different purposes.
 ## Codes
 
 [One time passwords app](MicroCodes)
+
+<p align="center"><img src="Screenshots/MicroCodes-01.jpg" width="55%" alt="MicroCodes app screenshot"/></p>
+
