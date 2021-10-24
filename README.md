@@ -2,14 +2,18 @@
 
 Small applications for different purposes.
 
-## Notes
+## MicroNotes
 
 [Small notes app](MicroNotes)
 
-## ToDo
+## MicroToDo
 
-[Small todo list app](MicroNotes)
+[Small todo list app](MicroToDo)
 
-## Codes
+## MicroCodes
 
 [One time passwords app](MicroCodes)
+
+## MicroTime
+
+[One time passwords app](MicroTime)
