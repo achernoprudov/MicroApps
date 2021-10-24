@@ -22,7 +22,7 @@ struct ContentView: View {
     var body: some View {
         List {
             ForEach(items) { item in
-                CodeItemView(code: "111 222", title: item.title)
+                OTPItemView(title: item.title, secret: item.key)
                     .listRowSeparator(.hidden)
             }
             .onDelete(perform: deleteItems)
