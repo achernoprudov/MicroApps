@@ -16,14 +16,18 @@ struct CodesListView: View {
     private var items: FetchedResults<CodeItem>
     
     var body: some View {
-        List {
-            ForEach(items) { item in
-                OTPItemView(title: item.title, secret: item.key)
-                    .listRowSeparator(.hidden)
+        if items.isEmpty {
+            Text("You have no codes")
+        } else {
+            List {
+                ForEach(items) { item in
+                    OTPItemView(title: item.title, secret: item.key)
+                        .listRowSeparator(.hidden)
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
+            .listStyle(PlainListStyle())
         }
-        .listStyle(PlainListStyle())
     }
     
     private func deleteItems(offsets: IndexSet) {

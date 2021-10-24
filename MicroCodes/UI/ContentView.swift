@@ -47,7 +47,7 @@ struct ContentView: View {
             let newItem = CodeItem(context: viewContext)
             newItem.title = title
             newItem.creationDate = Date()
-            newItem.key = Data(key.utf8).base64EncodedData()
+            newItem.key = base32DecodeToData(key)!
 
             do {
                 try viewContext.save()

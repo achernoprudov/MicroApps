@@ -50,7 +50,7 @@ internal class Generator {
 
         // HMAC hash counter data with secret key
         var hmac = Data()
-        hmac = Data(HMAC<SHA256>.authenticationCode(for: counterMessage, using: SymmetricKey(data: secret)))
+        hmac = Data(HMAC<Insecure.SHA1>.authenticationCode(for: counterMessage, using: SymmetricKey(data: secret)))
 
         
         // Get last 4 bits of hash as offset
