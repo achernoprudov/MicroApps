@@ -19,13 +19,16 @@ struct AddCodeView: View {
     let completion: Completion
     
     var body: some View {
-        List {
-            TextField("Title", text: $title)
-            TextField("Key", text: $key)
-            
-            Button("Add") {
-                completion(title, key)
+        NavigationView {
+            List {
+                TextField("Title", text: $title)
+                TextField("Key", text: $key)
+                
+                Button("Add") {
+                    completion(title, key)
+                }
             }
+            .navigationTitle("Add new code")
         }
     }
 }
