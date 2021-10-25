@@ -11,8 +11,7 @@ struct LocationItemView: View {
     // MARK: - Instance variables
     
     private let timeZone: TimeZone
-    private let dateFormatter: DateFormatter
-    private let time: Date
+    private let formattedTime: String
     
     // MARK: - Computable
     
@@ -39,7 +38,7 @@ struct LocationItemView: View {
             
             Spacer()
             
-            Text(time, formatter: dateFormatter)
+            Text(formattedTime)
         }
     }
     
@@ -47,13 +46,14 @@ struct LocationItemView: View {
     
     init(identifier: String, time: Date) {
         self.timeZone = TimeZone(identifier: identifier)!
-        self.time = time
         
         // FIXME: implement Flyweight pattern
-        self.dateFormatter = DateFormatter()
-        self.dateFormatter.timeZone = timeZone
-        self.dateFormatter.dateStyle = .none
-        self.dateFormatter.timeStyle = .short
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = timeZone
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        
+        self.formattedTime = dateFormatter.string(from: time)
     }
 }
 
