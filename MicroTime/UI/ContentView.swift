@@ -13,12 +13,6 @@ struct ContentView: View {
     @Environment(\.managedObjectContext)
     private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Location.creationDate, ascending: true)],
-        animation: .default
-    )
-    private var items: FetchedResults<Location>
-    
     @State
     var addLocationPresented = false
     
@@ -26,13 +20,8 @@ struct ContentView: View {
     var date = Date()
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    LocationItemView(identifier: item.timeZoneId, time: date)
-                }
-                .onDelete(perform: deleteItems)
-            }
+        LocationsList()
+            .navigationTitle("MicroTime")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -51,8 +40,6 @@ struct ContentView: View {
                     addLocation(with: timeZone)
                 }
             }
-            Text("Select an item")
-        }
     }
 
     private func addLocation(with timeZone: TimeZone?) {
@@ -65,25 +52,13 @@ struct ContentView: View {
             viewContext.saveOrCrash()
         }
     }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-            
-            viewContext.saveOrCrash()
-        }
-    }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationView {
+            ContentView()
+        }
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
