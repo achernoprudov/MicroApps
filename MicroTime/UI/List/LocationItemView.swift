@@ -26,7 +26,7 @@ struct LocationItemView: View {
     var body: some View {
         HStack(alignment: .top) {
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
             
                 Text(title)
                     .font(.title2)

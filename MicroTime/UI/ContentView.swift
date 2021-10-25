@@ -15,9 +15,6 @@ struct ContentView: View {
 
     @State
     var addLocationPresented = false
-    
-    @State
-    var date = Date()
 
     var body: some View {
         LocationsList()
