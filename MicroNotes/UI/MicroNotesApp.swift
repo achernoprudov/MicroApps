@@ -16,7 +16,6 @@ struct MicroNotesApp: App {
             NavigationView {
                 ContentView()
             }
-            .accentColor(.orange)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

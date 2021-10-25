@@ -16,7 +16,6 @@ struct MicroCodesApp: App {
             NavigationView {
                 ContentView()
             }
-            .accentColor(.purple)
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
