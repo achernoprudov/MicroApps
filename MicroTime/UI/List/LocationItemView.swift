@@ -16,7 +16,7 @@ struct LocationItemView: View {
     // MARK: - Computable
     
     private var title: String {
-        timeZone.identifier.replacingOccurrences(of: "/", with: ", ")
+        timeZone.locationName
     }
     
     private var gmtCaption: String {

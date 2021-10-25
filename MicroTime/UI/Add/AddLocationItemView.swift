@@ -13,7 +13,7 @@ struct AddLocationItemView: View {
     private let onTap: (TimeZone) -> Void
     
     private var title: String {
-        timeZone.identifier.replacingOccurrences(of: "/", with: ", ")
+        timeZone.locationName
     }
     
     private var gmtCaption: String {
