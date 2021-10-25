@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Core
 
 struct NoteCardView: View {
     
@@ -32,13 +33,7 @@ struct NoteCardView: View {
     
     private func saveNote() {
         note.text = text
-        
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
+        viewContext.saveOrCrash()
     }
 }
 
