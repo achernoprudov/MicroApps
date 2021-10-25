@@ -1,6 +1,6 @@
 //
 //  CornerRadius.swift
-//  ToDoCore
+//  Core
 //
 //  Created by Andrey Chernoprudov on 06.07.2021.
 //

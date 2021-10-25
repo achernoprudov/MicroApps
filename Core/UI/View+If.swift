@@ -1,6 +1,6 @@
 //
 //  View+If.swift
-//  MicroToDo
+//  Core
 //
 //  Created by Andrey Chernoprudov on 06.07.2021.
 //

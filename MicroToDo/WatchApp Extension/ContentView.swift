@@ -7,6 +7,7 @@
 
 import ToDoWatchCore
 import SwiftUI
+import Core
 
 struct ContentView: View {
     
