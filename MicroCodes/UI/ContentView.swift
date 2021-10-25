@@ -12,11 +12,6 @@ import Core
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CodeItem.creationDate, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<CodeItem>
-    
     @State
     var addCodePresented = false
 

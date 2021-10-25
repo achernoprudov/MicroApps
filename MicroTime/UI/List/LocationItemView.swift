@@ -17,7 +17,7 @@ struct LocationItemView: View {
     // MARK: - Computable
     
     private var title: String {
-        timeZone.localizedName(for: .shortGeneric, locale: .current) ?? timeZone.identifier
+        timeZone.identifier.replacingOccurrences(of: "/", with: ", ")
     }
     
     private var gmtCaption: String {
@@ -29,9 +29,9 @@ struct LocationItemView: View {
             
             VStack(alignment: .leading) {
             
-            Text(title)
-                .font(.title2)
-                .bold()
+                Text(title)
+                    .font(.title2)
+                    .bold()
                 
                 Text(gmtCaption)
                     .font(.footnote)
@@ -51,11 +51,10 @@ struct LocationItemView: View {
         
         // FIXME: implement Flyweight pattern
         self.dateFormatter = DateFormatter()
-        self.dateFormatter.dateStyle = .short
-        self.dateFormatter.timeStyle = .short
         self.dateFormatter.timeZone = timeZone
+        self.dateFormatter.dateStyle = .none
+        self.dateFormatter.timeStyle = .short
     }
-    
 }
 
 struct LocationItemView_Previews: PreviewProvider {

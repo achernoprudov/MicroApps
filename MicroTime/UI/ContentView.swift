@@ -18,16 +18,18 @@ struct ContentView: View {
         animation: .default
     )
     private var items: FetchedResults<Location>
+    
+    @State
+    var addLocationPresented = false
+    
+    @State
+    var date = Date()
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.creationDate, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.creationDate, formatter: itemFormatter)
-                    }
+                    LocationItemView(identifier: item.timeZoneId, time: date)
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -36,19 +38,29 @@ struct ContentView: View {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addItem) {
+                    Button {
+                        addLocationPresented = true
+                    } label: {
                         Label("Add Item", systemImage: "plus")
                     }
+                }
+            }
+            .popover(isPresented: $addLocationPresented) {
+                AddLocationView { timeZone in
+                    addLocationPresented = false
+                    addLocation(with: timeZone)
                 }
             }
             Text("Select an item")
         }
     }
 
-    private func addItem() {
+    private func addLocation(with timeZone: TimeZone?) {
+        guard let timeZone = timeZone else { return }
         withAnimation {
             let newItem = Location(context: viewContext)
             newItem.creationDate = Date()
+            newItem.timeZoneId = timeZone.identifier
             
             viewContext.saveOrCrash()
         }
