@@ -20,9 +20,19 @@ struct AddLocationView: View {
     }
     
     var body: some View {
-        List(all, id: \.self) { id in
-            AddLocationItemView(identifier: id) { timeZone in
-                completion(timeZone)
+        NavigationView {
+            List(all, id: \.self) { id in
+                AddLocationItemView(identifier: id) { timeZone in
+                    completion(timeZone)
+                }
+            }
+            .navigationTitle("Add location")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        completion(nil)
+                    }
+                }
             }
         }
     }
