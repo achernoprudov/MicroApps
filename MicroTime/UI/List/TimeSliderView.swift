@@ -18,7 +18,8 @@ struct TimeSliderView: View {
     
     var body: some View {
         Color.gray
-            .overlay(CircleView(xOffset: offset))
+            .overlay(TimeScaleShape(offset: offset))
+//            .overlay(CircleView(xOffset: offset))
             .gesture(
                 DragGesture()
                     .onChanged { value in
@@ -34,26 +35,33 @@ struct TimeSliderView: View {
             )
     }
 }
-
-// FIXME: Replace with dashes
-struct CircleView: View {
-    let xOffset: CGFloat
+struct TimeScaleShape: Shape {
+    private static let strokeStyle = StrokeStyle(
+        lineWidth: 4,
+        lineCap: .round
+    )
     
-    var body: some View {
-        GeometryReader { g in
-            Rectangle()
-                .foregroundColor(.black)
-                .frame(width: 10, height: 10)
-                .offset(x: calcOffset(for: g), y: 20)
-        }
+    var offset: CGFloat
+    
+    var animatableData: CGFloat {
+        get { return offset }
+        set { offset = newValue }
     }
     
-    func calcOffset(for geometry: GeometryProxy) -> CGFloat {
-        let result = xOffset.truncatingRemainder(dividingBy: geometry.size.width)
-        if result > 0 {
-            return result
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        var x = rect.midX + offset
+        x.formTruncatingRemainder(dividingBy: rect.width)
+        if x < 0 {
+            x = rect.width + x
         }
-        return geometry.size.width + result
+        
+        path.move(to: CGPoint(x: x, y: 0))
+        path.addLine(to: CGPoint(x: x, y: rect.height))
+        
+        return path
+            .strokedPath(Self.strokeStyle)
     }
 }
 
