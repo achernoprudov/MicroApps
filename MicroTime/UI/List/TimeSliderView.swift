@@ -15,19 +15,24 @@ struct TimeSliderView: View {
     var startOffset: CGFloat = 0
     @Binding
     var offset: CGFloat
+    @State
+    var scaleMultiplier: CGFloat = 1
     
     var body: some View {
-        TimeScaleShape(offset: offset)
+        TimeScaleShape(offset: offset, scaleMultiplier: scaleMultiplier)
+            .overlay(Text("scale \(scaleMultiplier)"))
             .gesture(
                 DragGesture()
                     .onChanged { value in
                         offset = startOffset + value.translation.width
+                        scaleMultiplier = 1 + min(abs(value.translation.height), 200) / 100
                     }
                     .onEnded { value in
                         let newValue = startOffset + value.predictedEndTranslation.width
                         withAnimation(.spring()) {
                             startOffset = newValue
                             offset = newValue
+                            scaleMultiplier = 1
                         }
                     }
             )
@@ -43,6 +48,7 @@ struct TimeScaleShape: Shape {
     )
     
     var offset: CGFloat
+    let scaleMultiplier: CGFloat
     
     var animatableData: CGFloat {
         get { return offset }
@@ -56,7 +62,7 @@ struct TimeScaleShape: Shape {
         path.addLine(to: CGPoint(x: centerLineX, y: rect.height))
         path.closeSubpath()
 
-        let step = rect.width / Self.linesNumber
+        let step = (rect.width / Self.linesNumber) * scaleMultiplier
         var x = centerLineX
         var i = 0
         // lines at left
@@ -111,8 +117,11 @@ struct TimeSliderView_Previews: PreviewProvider {
         
         var body: some View {
             VStack {
-                TimeSliderView(offset: $value)
-                    .background(Color.gray)
+                TimeSliderView(offset: Binding(
+                    get: { return value / 10 },
+                    set: { newValue in value = newValue * 10 }
+                ))
+                .background(Color.gray)
                 
                 Text(Date(timeIntervalSinceNow: TimeInterval(value)), formatter: Self.formatter)
                 

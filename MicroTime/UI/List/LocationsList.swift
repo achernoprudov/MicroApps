@@ -36,8 +36,8 @@ struct LocationsList: View {
             }
             
             TimeSliderView(offset: Binding(
-                get: { CGFloat(timeDelta) },
-                set: { offset in timeDelta = TimeInterval(offset) })
+                get: { CGFloat(timeDelta) / 50 },
+                set: { offset in timeDelta = TimeInterval(offset * 50) })
             )
             .frame(maxWidth: .infinity, maxHeight: 100)
         }
