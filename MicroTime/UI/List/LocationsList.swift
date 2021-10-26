@@ -26,21 +26,28 @@ struct LocationsList: View {
     @State
     private var timeDelta: TimeInterval = 0
     
+    private var timeBinding: Binding<CGFloat> {
+        Binding<CGFloat>(
+            get: { CGFloat(timeDelta) / 50 },
+            set: { offset in timeDelta = TimeInterval(offset * 50) }
+        )
+    }
+    
     var body: some View {
-        VStack {
-            List {
-                ForEach(items) { item in
-                    LocationItemView(identifier: item.timeZoneId, timeDelta: timeDelta)
-                }
-                .onDelete(perform: deleteItems)
+        List {
+            ForEach(items) { item in
+                LocationItemView(identifier: item.timeZoneId, timeDelta: timeDelta)
             }
+            .onDelete(perform: deleteItems)
             
-            TimeSliderView(offset: Binding(
-                get: { CGFloat(timeDelta) / 50 },
-                set: { offset in timeDelta = TimeInterval(offset * 50) })
-            )
-            .frame(maxWidth: .infinity, maxHeight: 100)
+            Spacer()
+                .frame(height: 100)
         }
+        .overlay(
+            TimeSliderView(offset: timeBinding)
+                .frame(maxWidth: .infinity, maxHeight: 100),
+            alignment: .bottom
+        )
     }
     
     // MARK: - Private

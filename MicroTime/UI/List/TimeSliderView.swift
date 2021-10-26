@@ -20,7 +20,14 @@ struct TimeSliderView: View {
     
     var body: some View {
         TimeScaleShape(offset: offset, scaleMultiplier: scaleMultiplier)
-            .overlay(Text("scale \(scaleMultiplier)"))
+            .background(Color.white.opacity(0.0001))
+            .mask(
+                LinearGradient(
+                    colors: [Color.clear, Color.white, Color.clear],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
             .gesture(
                 DragGesture()
                     .onChanged { value in
@@ -38,6 +45,7 @@ struct TimeSliderView: View {
             )
     }
 }
+
 struct TimeScaleShape: Shape {
     
     private static let linesNumber: CGFloat = 30
