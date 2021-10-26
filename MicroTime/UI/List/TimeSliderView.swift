@@ -48,11 +48,14 @@ struct TimeScaleShape: Shape {
     )
     
     var offset: CGFloat
-    let scaleMultiplier: CGFloat
+    var scaleMultiplier: CGFloat
     
-    var animatableData: CGFloat {
-        get { return offset }
-        set { offset = newValue }
+    var animatableData: AnimatablePair<CGFloat, CGFloat> {
+        get { AnimatablePair(offset, scaleMultiplier) }
+        set {
+            offset = newValue.first
+            scaleMultiplier = newValue.second
+        }
     }
     
     func path(in rect: CGRect) -> Path {
