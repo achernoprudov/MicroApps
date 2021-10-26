@@ -36,6 +36,9 @@ struct TimeSliderView: View {
     }
 }
 struct TimeScaleShape: Shape {
+    
+    private static let linesNumber: CGFloat = 30
+    
     private static let strokeStyle = StrokeStyle(
         lineWidth: 4,
         lineCap: .round
@@ -50,18 +53,55 @@ struct TimeScaleShape: Shape {
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        
-        var x = rect.midX + offset
-        x.formTruncatingRemainder(dividingBy: rect.width)
-        if x < 0 {
-            x = rect.width + x
+        let centerLineX = calcCenterLineX(from: rect)
+        path.move(to: CGPoint(x: centerLineX, y: 0))
+        path.addLine(to: CGPoint(x: centerLineX, y: rect.height))
+        path.closeSubpath()
+
+        let step = rect.width / Self.linesNumber
+        var x = centerLineX
+        var i = 0
+        // lines at left
+        while x > 0 {
+            x -= step
+            i += 1
+            
+            var y: CGFloat = 0
+            if i % 2 == 1 {
+                y = rect.midY
+            }
+            path.move(to: CGPoint(x: x, y: y))
+            path.addLine(to: CGPoint(x: x, y: rect.maxY))
+            path.closeSubpath()
         }
         
-        path.move(to: CGPoint(x: x, y: 0))
-        path.addLine(to: CGPoint(x: x, y: rect.height))
+        // lines at right
+        x = centerLineX
+        i = 0
+        while x < rect.width {
+            x += step
+            i += 1
+            
+            var y: CGFloat = 0
+            if i % 2 == 1 {
+                y = rect.midY
+            }
+            path.move(to: CGPoint(x: x, y: y))
+            path.addLine(to: CGPoint(x: x, y: rect.maxY))
+            path.closeSubpath()
+        }
         
         return path
             .strokedPath(Self.strokeStyle)
+    }
+    
+    private func calcCenterLineX(from rect: CGRect) -> CGFloat {
+        var centerLineX = rect.midX + offset
+        centerLineX.formTruncatingRemainder(dividingBy: rect.width)
+        if centerLineX < 0 {
+            centerLineX = rect.width + centerLineX
+        }
+        return centerLineX
     }
 }
 
@@ -91,7 +131,7 @@ struct TimeSliderView_Previews: PreviewProvider {
     
     static var previews: some View {
         Wrapper()
-            .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
+            .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 100)
             
     }
 }
