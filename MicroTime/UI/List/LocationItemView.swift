@@ -44,7 +44,7 @@ struct LocationItemView: View {
     
     // MARK: - Public
     
-    init(identifier: String, time: Date) {
+    init(identifier: String, timeDelta: TimeInterval) {
         self.timeZone = TimeZone(identifier: identifier)!
         
         // FIXME: implement Flyweight pattern
@@ -53,6 +53,7 @@ struct LocationItemView: View {
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
         
+        let time = Date(timeIntervalSinceNow: timeDelta)
         self.formattedTime = dateFormatter.string(from: time)
     }
 }
@@ -60,8 +61,8 @@ struct LocationItemView: View {
 struct LocationItemView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            LocationItemView(identifier: "Africa/Lagos", time: Date())
-            LocationItemView(identifier: "Asia/Tokyo", time: Date())
+            LocationItemView(identifier: "Africa/Lagos", timeDelta: 0)
+            LocationItemView(identifier: "Asia/Tokyo", timeDelta: 0)
         }
     }
 }

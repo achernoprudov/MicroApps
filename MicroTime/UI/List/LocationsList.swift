@@ -24,14 +24,22 @@ struct LocationsList: View {
     private var items: FetchedResults<Location>
     
     @State
-    private var date = Date()
+    private var timeDelta: TimeInterval = 0
     
     var body: some View {
-        List {
-            ForEach(items) { item in
-                LocationItemView(identifier: item.timeZoneId, time: date)
+        VStack {
+            List {
+                ForEach(items) { item in
+                    LocationItemView(identifier: item.timeZoneId, timeDelta: timeDelta)
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
+            
+            TimeSliderView(offset: Binding(
+                get: { CGFloat(timeDelta) },
+                set: { offset in timeDelta = TimeInterval(offset) })
+            )
+            .frame(maxWidth: .infinity, maxHeight: 100)
         }
     }
     
