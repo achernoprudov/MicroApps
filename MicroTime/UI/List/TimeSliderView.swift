@@ -17,9 +17,7 @@ struct TimeSliderView: View {
     var offset: CGFloat
     
     var body: some View {
-        Color.gray
-            .overlay(TimeScaleShape(offset: offset))
-//            .overlay(CircleView(xOffset: offset))
+        TimeScaleShape(offset: offset)
             .gesture(
                 DragGesture()
                     .onChanged { value in
@@ -65,11 +63,8 @@ struct TimeScaleShape: Shape {
         while x > 0 {
             x -= step
             i += 1
+            let y = (i % 5 == 0) ? 0 : rect.height / 3 * 2
             
-            var y: CGFloat = 0
-            if i % 2 == 1 {
-                y = rect.midY
-            }
             path.move(to: CGPoint(x: x, y: y))
             path.addLine(to: CGPoint(x: x, y: rect.maxY))
             path.closeSubpath()
@@ -81,11 +76,8 @@ struct TimeScaleShape: Shape {
         while x < rect.width {
             x += step
             i += 1
+            let y = (i % 5 == 0) ? 0 : rect.height / 3 * 2
             
-            var y: CGFloat = 0
-            if i % 2 == 1 {
-                y = rect.midY
-            }
             path.move(to: CGPoint(x: x, y: y))
             path.addLine(to: CGPoint(x: x, y: rect.maxY))
             path.closeSubpath()
