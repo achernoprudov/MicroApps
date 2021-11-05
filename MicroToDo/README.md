@@ -8,5 +8,5 @@ Contains todo list and app widget.
 # TODO
 
 - screenshot
-- new icons
+- description
 - test apple watch app syncronization

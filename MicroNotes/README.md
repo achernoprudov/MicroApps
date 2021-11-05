@@ -7,4 +7,4 @@ Simple notes application.
 # TODO
 
 - screenshot
-- new icons
+- description
