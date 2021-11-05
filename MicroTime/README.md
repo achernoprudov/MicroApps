@@ -8,5 +8,4 @@ Micro application for comparing time in different countries
 - list styling
 - add timezone search
 - reordering
-- app icon
 - app screenshots
