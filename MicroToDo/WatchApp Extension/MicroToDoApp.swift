@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ToDoWatchCore
+import ToDoCore
 
 @main
 struct MicroToDoApp: App {

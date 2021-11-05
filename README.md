@@ -16,4 +16,4 @@ Small applications for different purposes.
 
 ## MicroTime
 
-[One time passwords app](MicroTime)
+[Time zones app](MicroTime)
