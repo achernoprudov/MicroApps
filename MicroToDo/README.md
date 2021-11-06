@@ -1,7 +1,6 @@
 <p align="center">
-<img src="../assets/MicroToDo-icon.png" width="15%" alt="MicroNotes Logo" />
+<img src="../assets/MicroToDo-icon.png" width="15%" alt="MicroToDo Logo" />
 </p>
-
 
 #  Micro ToDo
 
