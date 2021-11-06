@@ -3,7 +3,9 @@
 Small applications for different purposes.
 
 ## MicroNotes
-<img src="MicroToDo/MicroToDo/Assets.xcassets/AppIcon.appiconset/AppIcon@3x.png" width="35%" alt="MicroNotes Logo" />
+<p align="center">
+<img src="MicroToDo/MicroToDo/Assets.xcassets/AppIcon.appiconset/AppIcon~ios-marketing.png" width="15%" alt="MicroNotes Logo" />
+</p>
 
 [Small notes app](MicroNotes)
 
