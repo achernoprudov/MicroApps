@@ -34,20 +34,22 @@ struct LocationsList: View {
     }
     
     var body: some View {
-        List {
-            ForEach(items) { item in
-                LocationItemView(identifier: item.timeZoneId, timeDelta: timeDelta)
+        if (items.isEmpty) {
+            Text("No items")
+        } else {
+            List {
+                ForEach(items) { item in
+                    LocationItemView(identifier: item.timeZoneId, timeDelta: timeDelta)
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
-            
-            Spacer()
-                .frame(height: 100)
+            .listStyle(PlainListStyle())
+            .overlay(
+                TimeSliderView(offset: timeBinding)
+                    .frame(maxWidth: .infinity, maxHeight: 100),
+                alignment: .bottom
+            )
         }
-        .overlay(
-            TimeSliderView(offset: timeBinding)
-                .frame(maxWidth: .infinity, maxHeight: 100),
-            alignment: .bottom
-        )
     }
     
     // MARK: - Private
