@@ -4,8 +4,10 @@
 
 #  Micro ToDo
 
-Simple ToDo application.
+Simple ToDo application written in native iOS Stack.
+
 Contains todo list and app widget.
+Includes a companion Apple Watch app.
 
 **Stack**: SwiftUI, CoreData
 

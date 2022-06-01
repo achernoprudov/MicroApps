@@ -38,7 +38,10 @@ struct AddLocationView: View {
                 }
             }
             .navigationTitle("Add location")
-            .searchable(text: $query)
+            .searchable(
+                text: $query,
+                placement: .navigationBarDrawer(displayMode: .always)
+            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {

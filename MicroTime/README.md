@@ -4,10 +4,15 @@
 
 #  MicroTime
 
-Micro application for comparing time in different countries
+Micro application for comparing time in different countries.
+
+**Stack**: CoreData, SwiftUI
+
+<p align="center">
+<img src="../assets/MicroTime-01.jpg" width="15%" alt="MicroTime Screenshot" />
+</p>
 
 # TODO
 
 - time slider
 - reordering
-- app screenshots

@@ -4,11 +4,10 @@
 
 #  Micro Notes
 
-Simple notes application.
+Simple notes application written in native iOS Stack.
 
 **Stack**: CoreData, SwiftUI 
 
-# TODO
-
-- screenshot
-- description
+<p align="center">
+<img src="../assets/MicroNotes-01.jpg" width="15%" alt="MicroTime Screenshot" />
+</p>
