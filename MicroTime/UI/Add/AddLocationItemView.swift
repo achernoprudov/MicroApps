@@ -9,19 +9,27 @@ import SwiftUI
 
 struct AddLocationItemView: View {
     
-    private let timeZone: TimeZone
+    private let timezone: TimeZone
     private let onTap: (TimeZone) -> Void
     
     private var title: String {
-        timeZone.locationName
+        timezone.locationName
     }
     
     private var gmtCaption: String {
-        timeZone.localizedName(for: .shortStandard, locale: .current) ?? timeZone.identifier
+        timezone.localizedName(for: .shortStandard, locale: .current) ?? timezone.identifier
     }
     
-    init(identifier: String, onTap: @escaping (TimeZone) -> Void) {
-        self.timeZone = TimeZone(identifier: identifier)!
+    init(timezone: TimeZone, onTap: @escaping (TimeZone) -> Void) {
+        self.timezone = timezone
+        self.onTap = onTap
+    }
+    
+    init(
+        identifier: String,
+        onTap: @escaping (TimeZone) -> Void
+    ) {
+        self.timezone = TimeZone(identifier: identifier)!
         self.onTap = onTap
     }
     
@@ -37,7 +45,7 @@ struct AddLocationItemView: View {
                 .font(.body)
         }
         .onTapGesture {
-            onTap(timeZone)
+            onTap(timezone)
         }
     }
 }

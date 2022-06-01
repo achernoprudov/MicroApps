@@ -11,22 +11,34 @@ struct AddLocationView: View {
     
     typealias Completion = (TimeZone?) -> Void
     
-    let completion: Completion
-    let all: [String]
+    private let completion: Completion
+    private let all: [TimeZone]
+    
+    @State
+    private var query = ""
+    
+    private var displayItems: [TimeZone] {
+        if query.isEmpty {
+            return all
+        }
+        return all.filter { $0.locationName.contains(query) }
+    }
     
     init(completion: @escaping Completion) {
         self.completion = completion
         self.all = TimeZone.knownTimeZoneIdentifiers
+            .compactMap(TimeZone.init(identifier:))
     }
     
     var body: some View {
         NavigationView {
-            List(all, id: \.self) { id in
-                AddLocationItemView(identifier: id) { timeZone in
-                    completion(timeZone)
+            List(displayItems, id: \.identifier) { timezone in
+                AddLocationItemView(timezone: timezone) { timezone in
+                    completion(timezone)
                 }
             }
             .navigationTitle("Add location")
+            .searchable(text: $query)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
