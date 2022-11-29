@@ -22,4 +22,7 @@
    <FileRef
       location = "group:MicroTime/MicroTime.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:MicroDates/MicroDates.xcodeproj">
+   </FileRef>
 </Workspace>
