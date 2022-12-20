@@ -14,7 +14,7 @@ struct DetailsListPage: View {
   
   @FetchRequest(
     sortDescriptors: [
-      NSSortDescriptor(keyPath: \DateItem.targetDate, ascending: true)
+      NSSortDescriptor(keyPath: \DateItem.targetDate, ascending: false)
     ],
     predicate: NSPredicate(format: "%K != ''", #keyPath(DateItem.title)),
     animation: .default

@@ -53,8 +53,7 @@ struct DetailsPage: View {
   }
   
   private func deleteItem() {
-    viewContext.delete(dateItem)
-    viewContext.saveOrCrash()
+    title = ""
     dismissPage()
   }
 }
