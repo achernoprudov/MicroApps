@@ -13,7 +13,7 @@ struct MicroDatesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DetailsListPage()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

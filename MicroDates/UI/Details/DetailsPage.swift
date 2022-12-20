@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Core
 
 struct DetailsPage: View {
   @Environment(\.managedObjectContext)
@@ -41,6 +42,12 @@ struct DetailsPage: View {
       if let item = viewContext.object(with: dateItemId) as? DateItem {
         dateItem = item
       }
+    }
+    .onDisappear {
+      dateItem?.title = title
+      dateItem?.targetDate = targetDate
+      
+      viewContext.saveOrCrash()
     }
   }
 }
