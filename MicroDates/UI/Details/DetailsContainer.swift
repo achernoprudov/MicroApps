@@ -21,6 +21,7 @@ struct DetailsContainer: View {
       TextField("Title", text: $title)
         .font(.title)
         .padding(.horizontal, 30)
+        .padding(.vertical)
       
       List {
         DatePicker("Target date", selection: $targetDate, displayedComponents: .date)

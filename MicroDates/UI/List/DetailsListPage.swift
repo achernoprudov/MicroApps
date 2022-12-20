@@ -38,6 +38,7 @@ struct DetailsListPage: View {
           }
         }
       }
+      .navigationTitle("MicroDates")
       .listStyle(PlainListStyle())
       .toolbar {
         ToolbarItem {
