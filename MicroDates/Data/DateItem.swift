@@ -9,15 +9,9 @@ import CoreData
 
 @objc(DateItem)
 public class DateItem: NSManagedObject {
-  
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<DateItem> {
-    return NSFetchRequest<DateItem>(entityName: "DateItem")
-  }
-  
   @NSManaged public var title: String
   @NSManaged public var creationDate: Date
   @NSManaged public var targetDate: Date
-  @NSManaged public var color: Data
   
   public override func awakeFromInsert() {
     super.awakeFromInsert()
@@ -29,3 +23,14 @@ extension DateItem: Identifiable {
   public var id: NSManagedObjectID { objectID }
 }
 
+/// # Requests
+extension DateItem {
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<DateItem> {
+    return NSFetchRequest<DateItem>(entityName: "DateItem")
+  }
+  
+  class func fetchAll(with context: NSManagedObjectContext) throws -> [DateItem] {
+      let request: NSFetchRequest<DateItem> = fetchRequest()
+      return try context.fetch(request)
+  }
+}

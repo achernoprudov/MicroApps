@@ -9,12 +9,12 @@ import CoreData
 
 @objc(Location)
 public class Location: NSManagedObject {
-    @NSManaged public var timeZoneId: String
-    @NSManaged public var creationDate: Date
+  @NSManaged public var timeZoneId: String
+  @NSManaged public var creationDate: Date
 }
 
 extension Location: Identifiable {
-    public var id: NSManagedObjectID {
-        objectID
-    }
+  public var id: NSManagedObjectID {
+    objectID
+  }
 }
