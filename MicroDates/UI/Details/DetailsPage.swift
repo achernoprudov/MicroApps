@@ -35,12 +35,18 @@ struct DetailsPage: View {
       color: $color,
       creationDate: dateItem.creationDate
     )
-    .onDisappear {
+    .onDisappear(perform: saveOrDelete)
+  }
+
+  private func saveOrDelete() {
+    if title.isEmpty {
+      viewContext.delete(dateItem)
+    } else {
       dateItem.title = title
       dateItem.targetDate = targetDate
-      
-      viewContext.saveOrCrash()
     }
+    
+    viewContext.saveOrCrash()
   }
 }
 

@@ -16,6 +16,7 @@ struct DetailsListPage: View {
     sortDescriptors: [
       NSSortDescriptor(keyPath: \DateItem.targetDate, ascending: true)
     ],
+    predicate: NSPredicate(format: "%K != ''", #keyPath(DateItem.title)),
     animation: .default
   )
   private var items: FetchedResults<DateItem>
@@ -56,8 +57,6 @@ struct DetailsListPage: View {
       let newItem = DateItem(context: viewContext)
       newItem.title = ""
       newItem.targetDate = Date()
-      
-      viewContext.saveOrCrash()
       
       selectedItem = newItem
     }
