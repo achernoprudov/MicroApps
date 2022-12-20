@@ -13,39 +13,31 @@ struct DetailsPage: View {
   @Environment(\.managedObjectContext)
   private var viewContext
   
-  let dateItemId: NSManagedObjectID
+  let dateItem: DateItem
   
   @State
-  var title: String = ""
+  var title: String
   @State
-  var targetDate: Date = Date()
+  var targetDate: Date
   @State
   var color: Color = .blue
   
-  @State
-  var dateItem: DateItem?
+  init(dateItem: DateItem) {
+    self.dateItem = dateItem
+    self._title = State(initialValue: dateItem.title)
+    self._targetDate = State(initialValue: dateItem.targetDate)
+  }
   
   var body: some View {
-    VStack {
-      if let item = dateItem {
-        DetailsContainer(
-          title: $title,
-          targetDate: $targetDate,
-          color: $color,
-          creationDate: item.creationDate
-        )
-      } else {
-        Text("Loading")
-      }
-    }
-    .onAppear {
-      if let item = viewContext.object(with: dateItemId) as? DateItem {
-        dateItem = item
-      }
-    }
+    DetailsContainer(
+      title: $title,
+      targetDate: $targetDate,
+      color: $color,
+      creationDate: dateItem.creationDate
+    )
     .onDisappear {
-      dateItem?.title = title
-      dateItem?.targetDate = targetDate
+      dateItem.title = title
+      dateItem.targetDate = targetDate
       
       viewContext.saveOrCrash()
     }
@@ -56,9 +48,8 @@ struct DetailsPage_Previews: PreviewProvider {
   static var previews: some View {
     let context = PersistenceController.preview.container.viewContext
     let items = try! DateItem.fetchAll(with: context)
-    let first = items.first!
     
-    return DetailsPage(dateItemId: first.objectID)
+    return DetailsPage(dateItem: items.first!)
       .environment(\.managedObjectContext, context)
   }
 }

@@ -39,32 +39,27 @@ struct DetailsListPage: View {
       }
       .listStyle(PlainListStyle())
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          EditButton()
-        }
         ToolbarItem {
           Button(action: addItem) {
             Label("Add Item", systemImage: "plus")
           }
         }
       }
-      Text("Select an item")
+      .sheet(item: $selectedItem) { item in
+        DetailsPage(dateItem: item)
+      }
     }
   }
   
   private func addItem() {
     withAnimation {
       let newItem = DateItem(context: viewContext)
+      newItem.title = ""
       newItem.targetDate = Date()
       
-      do {
-        try viewContext.save()
-      } catch {
-        // Replace this implementation with code to handle the error appropriately.
-        // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        let nsError = error as NSError
-        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-      }
+      viewContext.saveOrCrash()
+      
+      selectedItem = newItem
     }
   }
 }
