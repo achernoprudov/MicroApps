@@ -6,18 +6,15 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct DetailsContainer: View {
-  let dateItem: DateItem
-  
-  @State
-  var date = Date()
-  @State
-  var color = Color.blue
-  @State
-  var title = "New title"
-  
+  @Binding
+  var title: String
+  @Binding
+  var targetDate: Date
+  @Binding
+  var color: Color
+  let creationDate: Date
   
   var body: some View {
     VStack {
@@ -26,18 +23,32 @@ struct DetailsContainer: View {
         .padding(.horizontal, 30)
       
       List {
-        DatePicker("Target date", selection: $date, displayedComponents: .date)
+        DatePicker("Target date", selection: $targetDate, displayedComponents: .date)
         ColorPicker("Color", selection: $color, supportsOpacity: false)
-        Text(dateItem.creationDate, formatter: DateFormatter())
+        LabeledContent("Creation date") {
+          Text(creationDate, formatter: itemFormatter)
+        }
       }
     }
   }
 }
 
+private let itemFormatter: DateFormatter = {
+  let formatter = DateFormatter()
+  formatter.dateStyle = .medium
+  formatter.timeStyle = .none
+  return formatter
+}()
+
+
 struct DetailsContainer_Previews: PreviewProvider {
   static var previews: some View {
-    let items = try! DateItem.fetchAll(with: PersistenceController.preview.container.viewContext)
     
-    return DetailsContainer(dateItem: items.first!)
+    return DetailsContainer(
+      title: .constant("Wife birthday"),
+      targetDate: .constant(Date()),
+      color: .constant(.blue),
+      creationDate: Date()
+    )
   }
 }
