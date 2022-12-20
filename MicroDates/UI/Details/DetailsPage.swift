@@ -14,6 +14,7 @@ struct DetailsPage: View {
   private var viewContext
   
   let dateItem: DateItem
+  let dismissPage: () -> Void
   
   @State
   var title: String
@@ -22,8 +23,9 @@ struct DetailsPage: View {
   @State
   var color: Color = .blue
   
-  init(dateItem: DateItem) {
+  init(dateItem: DateItem, dismissPage: @escaping () -> Void) {
     self.dateItem = dateItem
+    self.dismissPage = dismissPage
     self._title = State(initialValue: dateItem.title)
     self._targetDate = State(initialValue: dateItem.targetDate)
   }
@@ -33,7 +35,8 @@ struct DetailsPage: View {
       title: $title,
       targetDate: $targetDate,
       color: $color,
-      creationDate: dateItem.creationDate
+      creationDate: dateItem.creationDate,
+      onDelete: deleteItem
     )
     .onDisappear(perform: saveOrDelete)
   }
@@ -48,6 +51,12 @@ struct DetailsPage: View {
     
     viewContext.saveOrCrash()
   }
+  
+  private func deleteItem() {
+    viewContext.delete(dateItem)
+    viewContext.saveOrCrash()
+    dismissPage()
+  }
 }
 
 struct DetailsPage_Previews: PreviewProvider {
@@ -55,7 +64,7 @@ struct DetailsPage_Previews: PreviewProvider {
     let context = PersistenceController.preview.container.viewContext
     let items = try! DateItem.fetchAll(with: context)
     
-    return DetailsPage(dateItem: items.first!)
+    return DetailsPage(dateItem: items.first!, dismissPage: {})
       .environment(\.managedObjectContext, context)
   }
 }

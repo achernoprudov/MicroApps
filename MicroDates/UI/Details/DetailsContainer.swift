@@ -16,6 +16,8 @@ struct DetailsContainer: View {
   var color: Color
   let creationDate: Date
   
+  let onDelete: () -> Void
+  
   var body: some View {
     VStack {
       TextField("Title", text: $title)
@@ -29,6 +31,8 @@ struct DetailsContainer: View {
         LabeledContent("Creation date") {
           Text(creationDate, formatter: itemFormatter)
         }
+        
+        Button("Delete", action: onDelete)
       }
     }
   }
@@ -49,7 +53,8 @@ struct DetailsContainer_Previews: PreviewProvider {
       title: .constant("Wife birthday"),
       targetDate: .constant(Date()),
       color: .constant(.blue),
-      creationDate: Date()
+      creationDate: Date(),
+      onDelete: {}
     )
   }
 }

@@ -48,7 +48,9 @@ struct DetailsListPage: View {
         }
       }
       .sheet(item: $selectedItem) { item in
-        DetailsPage(dateItem: item)
+        DetailsPage(dateItem: item, dismissPage: {
+          selectedItem = nil
+        })
       }
     }
   }
