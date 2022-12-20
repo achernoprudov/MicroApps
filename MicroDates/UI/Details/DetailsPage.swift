@@ -14,16 +14,44 @@ struct DetailsPage: View {
   
   let dateItemId: NSManagedObjectID
   
+  @State
+  var title: String = ""
+  @State
+  var targetDate: Date = Date()
+  @State
+  var color: Color = .blue
+  
+  @State
+  var dateItem: DateItem?
+  
   var body: some View {
     VStack {
-      Text("Hello, World!")
+      if let item = dateItem {
+        DetailsContainer(
+          title: $title,
+          targetDate: $targetDate,
+          color: $color,
+          creationDate: item.creationDate
+        )
+      } else {
+        Text("Loading")
+      }
+    }
+    .onAppear {
+      if let item = viewContext.object(with: dateItemId) as? DateItem {
+        dateItem = item
+      }
     }
   }
 }
 
-//struct DetailsPage_Previews: PreviewProvider {
-//  static var previews: some View {
-//    DetailsPage()
-//      .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//  }
-//}
+struct DetailsPage_Previews: PreviewProvider {
+  static var previews: some View {
+    let context = PersistenceController.preview.container.viewContext
+    let items = try! DateItem.fetchAll(with: context)
+    let first = items.first!
+    
+    return DetailsPage(dateItemId: first.objectID)
+      .environment(\.managedObjectContext, context)
+  }
+}
